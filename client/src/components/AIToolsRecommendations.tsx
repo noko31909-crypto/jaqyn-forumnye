@@ -45,7 +45,11 @@ export default function AIToolsRecommendations({
   });
 
   const handleGenerate = () => {
-    toast.info("AI Recommendations coming soon");
+    toolsMutation.mutate({
+      businessType,
+      activeIntegrations,
+      missingIntegrations,
+    });
   };
 
   const isLoading = toolsMutation.isPending;
@@ -68,7 +72,7 @@ export default function AIToolsRecommendations({
             variant="ghost"
             size="sm"
             onClick={handleGenerate}
-            disabled={true}
+            disabled={isLoading}
             className="text-white hover:bg-white/20 h-8 px-3 gap-1.5"
           >
             <Sparkles className={cn("w-3.5 h-3.5", isLoading && "animate-spin")} />

@@ -61,8 +61,9 @@ export default function Customers() {
     return <Badge className={variant.className}>{variant.label}</Badge>;
   };
 
-  const daysSinceLastVisit = (lastVisit: Date) => {
-    return Math.floor((Date.now() - lastVisit.getTime()) / 86400000);
+  const daysSinceLastVisit = (lastVisit: Date | string | number) => {
+    const d = lastVisit instanceof Date ? lastVisit : new Date(lastVisit);
+    return Math.floor((Date.now() - d.getTime()) / 86400000);
   };
 
   return (

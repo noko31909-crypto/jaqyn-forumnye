@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { useDemoStore } from '@/store/demoStore';
 
+function toDate(value: Date | string | number): Date {
+  if (value instanceof Date) return value;
+  return new Date(value);
+}
+
 export function useCustomerSegmentation() {
   const customers = useDemoStore((state) => state.customers);
 
@@ -8,15 +13,15 @@ export function useCustomerSegmentation() {
     () => ({
       vip: customers.filter((c) => c.totalSpent > 50000 || c.totalVisits > 20),
       atRisk: customers.filter((c) => {
-        const daysSinceVisit = (Date.now() - c.lastVisit.getTime()) / 86400000;
+        const daysSinceVisit = (Date.now() - toDate(c.lastVisit).getTime()) / 86400000;
         return daysSinceVisit >= 14 && daysSinceVisit < 30;
       }),
       inactive: customers.filter((c) => {
-        const daysSinceVisit = (Date.now() - c.lastVisit.getTime()) / 86400000;
+        const daysSinceVisit = (Date.now() - toDate(c.lastVisit).getTime()) / 86400000;
         return daysSinceVisit >= 30;
       }),
       regular: customers.filter((c) => {
-        const daysSinceVisit = (Date.now() - c.lastVisit.getTime()) / 86400000;
+        const daysSinceVisit = (Date.now() - toDate(c.lastVisit).getTime()) / 86400000;
         return c.totalVisits >= 3 && daysSinceVisit < 14;
       }),
       new: customers.filter((c) => c.totalVisits <= 2),
