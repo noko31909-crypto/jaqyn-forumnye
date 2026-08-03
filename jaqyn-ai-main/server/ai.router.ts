@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { protectedProcedure, router } from "./_core/trpc";
+import { publicProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
 
 // ─── Prompt Templates ────────────────────────────────────────────────────────
@@ -159,7 +159,7 @@ Respond with a JSON object (no markdown, just raw JSON):
 
 export const aiRouter = router({
   // General chat with Jaqyn AI
-  chat: protectedProcedure
+  chat: publicProcedure
     .input(
       z.object({
         messages: z.array(
@@ -196,7 +196,7 @@ export const aiRouter = router({
     }),
 
   // Dashboard AI insight
-  dashboardInsight: protectedProcedure
+  dashboardInsight: publicProcedure
     .input(
       z.object({
         businessName: z.string(),
@@ -246,7 +246,7 @@ export const aiRouter = router({
     }),
 
   // Campaign copywriting
-  campaignCopy: protectedProcedure
+  campaignCopy: publicProcedure
     .input(
       z.object({
         goal: z.string(),
@@ -294,7 +294,7 @@ export const aiRouter = router({
     }),
 
   // Customer churn prediction
-  churnPrediction: protectedProcedure
+  churnPrediction: publicProcedure
     .input(
       z.object({
         customerName: z.string(),
@@ -347,7 +347,7 @@ export const aiRouter = router({
     }),
 
   // Analytics diagnostics
-  analyticsInsight: protectedProcedure
+  analyticsInsight: publicProcedure
     .input(
       z.object({
         campaignName: z.string(),
@@ -397,7 +397,7 @@ export const aiRouter = router({
     }),
 
   // Tools & integrations recommendation
-  toolsRecommendation: protectedProcedure
+  toolsRecommendation: publicProcedure
     .input(
       z.object({
         businessType: z.string(),

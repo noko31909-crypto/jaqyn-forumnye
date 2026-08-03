@@ -362,7 +362,7 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
     messages: messages.map(normalizeMessage),
   };
 
-  if (model) {
+  payload.model = model || "gpt-4.1-mini"; if (false) {
     payload.model = model;
   }
 

@@ -212,10 +212,16 @@ const normalizeToolChoice = (
   return toolChoice;
 };
 
-const resolveApiUrl = () =>
-  ENV.forgeApiUrl && ENV.forgeApiUrl.trim().length > 0
-    ? `${ENV.forgeApiUrl.replace(/\/$/, "")}/v1/chat/completions`
-    : "https://forge.manus.im/v1/chat/completions";
+const resolveApiUrl = () => {
+  if (ENV.forgeApiUrl && ENV.forgeApiUrl.trim().length > 0) {
+    const baseUrl = ENV.forgeApiUrl.replace(/\/$/, "");
+    if (baseUrl.endsWith("/v1")) {
+      return `${baseUrl}/chat/completions`;
+    }
+    return `${baseUrl}/v1/chat/completions`;
+  }
+  return "https://forge.manus.im/v1/chat/completions";
+};
 
 const assertApiKey = () => {
   if (!ENV.forgeApiKey) {
@@ -362,9 +368,7 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
     messages: messages.map(normalizeMessage),
   };
 
-  if (model) {
-    payload.model = model;
-  }
+  payload.model = model || "gpt-4.1-mini";
 
   if (tools && tools.length > 0) {
     payload.tools = tools;
